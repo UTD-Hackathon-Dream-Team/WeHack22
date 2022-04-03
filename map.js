@@ -6,9 +6,19 @@ var longitude = -96.750003;
 var directionsService;
 var directionsDisplay;
 var gmarkers = [];
+var points = [];
 
 function addtoPoints(toAdd) {
   points.push(toAdd);
+}
+
+function openWindow() {
+  var urlParams = "";
+  for (var i = 0; i < points.length; i++) {
+    urlParams += points[i].lat + "," + points[i].lng + "/";
+  }
+  var url = "https://www.google.com/maps/dir/" + urlParams;
+  window.open(url);
 }
 
 async function initialize() {
@@ -46,7 +56,6 @@ const getStops = (service, stopRequest) => {
   return new Promise((resolve, reject) => {
     service.nearbySearch(stopRequest, (results, status) => {
       if (status === "OK") {
-        console.log(results);
         resolve(results[0]);
       } else if (status === "OVER_QUERY_LIMIT") {
         reject(status);
@@ -66,12 +75,16 @@ async function showRoute() {
   while (list.firstChild) {
     list.removeChild(list.firstChild);
   }
+  var mapsButton = document.getElementById("maps_button");
+  while (mapsButton.firstChild) {
+    mapsButton.removeChild(mapsButton.firstChild);
+  }
+  points = [];
 
   var stopType = document.querySelector('input[name="stop_type"]:checked').id;
 
   var start = document.getElementById("start").value;
   var dest = document.getElementById("dest").value;
-  var points = [];
 
   //Get coordinates of route endpoints
   let startPoint = await getAddress(start);
@@ -139,7 +152,7 @@ async function showRoute() {
     //Getting nearby gas station
     var stopRequest = {
       location: new google.maps.LatLng(stop.lat(), stop.lng()),
-      radius: "16000",
+      radius: "32000",
       type: stopType,
       rankby: "prominence",
     };
@@ -171,12 +184,21 @@ async function showRoute() {
     lng: endPoint.geometry.location.lng(),
   });
 
-  var urlParams = "";
-  for (var i = 0; i < points.length; i++) {
-    urlParams += points[i].lat + "," + points[i].lng + "/";
-  }
-  var url = "https://www.google.com/maps/dir/" + urlParams;
-  window.open(url);
+  const stats = document.getElementById("maps_button");
+
+  // creating the span element, then add a class attribute
+  const button = document.createElement("button");
+  button.setAttribute("class", "btn btn-primary");
+  button.innerHTML = "Show Route on Google Maps";
+  button.onclick = openWindow;
+  stats.appendChild(button);
+
+  // var urlParams = "";
+  // for (var i = 0; i < points.length; i++) {
+  //   urlParams += points[i].lat + "," + points[i].lng + "/";
+  // }
+  // var url = "https://www.google.com/maps/dir/" + urlParams;
+  // window.open(url);
 }
 
 function showMap(latitude, longitude, zoom) {
