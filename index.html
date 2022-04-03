@@ -26,7 +26,7 @@
   <body onload="initialize()">
     <div>
       <form>
-        <div class="card bg-light" style="width: 32rem">
+        <div class="card bg-light m-2" style="width: 32rem">
           <div class="card-body p-4">
             <h5 class="card-title">Plan Trip</h5>
             <div class="row">
@@ -51,14 +51,25 @@
                 />
               </div>
             </div>
-            <button
+            <div class="btn-group btn-group-toggle mt-3" data-toggle="buttons">
+              <label class="btn btn-secondary active">
+                <input type="radio" name="gas_station" id="gas_station" autocomplete="off" checked> Gas Station
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="restaurant" id="restaurant" autocomplete="off"> Restaurant
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="cafe" id="cafe" autocomplete="off"> Coffee Shop
+              </label>
+            </div>
+          </div>
+          <button
               type="button"
               onclick="showRoute()"
-              class="btn btn-primary mt-3"
+              class="btn btn-primary"
             >
               Search
             </button>
-          </div>
         </div>
       </form>
     </div>
@@ -66,6 +77,6 @@
       <p id="distance"></p>
       <p id="duration"></p>
     </div>
-    <div id="map"></div>
+    <div class="m-2" id="map"></div>
   </body>
 </html>
