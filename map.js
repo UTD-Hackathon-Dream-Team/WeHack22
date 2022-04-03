@@ -46,6 +46,7 @@ const getStops = (service, stopRequest) => {
   return new Promise((resolve, reject) => {
     service.nearbySearch(stopRequest, (results, status) => {
       if (status === "OK") {
+        console.log(results);
         resolve(results[0]);
       } else {
         reject(status);
@@ -58,8 +59,12 @@ async function showRoute() {
   for (i = 0; i < gmarkers.length; i++) {
     gmarkers[i].setMap(null);
   }
+  var list = document.getElementById("your_stops");
+  while (list.firstChild) {
+    list.removeChild(list.firstChild);
+  }
 
-  console.log(document.querySelector('input[name="stop_type"]:checked').id);
+  var stopType = document.querySelector('input[name="stop_type"]:checked').id;
 
   var start = document.getElementById("start").value;
   var dest = document.getElementById("dest").value;
@@ -118,8 +123,8 @@ async function showRoute() {
     var stopRequest = {
       location: new google.maps.LatLng(stop.lat(), stop.lng()),
       radius: "16000",
-      type: ["gas_station"],
-      rankby: "distance",
+      type: stopType,
+      rankby: "prominence",
     };
     service = new google.maps.places.PlacesService(map);
     let stopsPoints = await getStops(service, stopRequest);
@@ -131,6 +136,10 @@ async function showRoute() {
         lng: stopsPoints.geometry.location.lng(),
       },
     });
+    var list = document.getElementById("your_stops");
+    var entry = document.createElement("li");
+    entry.appendChild(document.createTextNode(stopsPoints.name));
+    list.appendChild(entry);
     gmarkers.push(marker);
     points.push({
       lat: stopsPoints.geometry.location.lat(),
@@ -146,36 +155,10 @@ async function showRoute() {
 
   var urlParams = "";
   for (var i = 0; i < points.length; i++) {
-    console.log(points);
     urlParams += points[i].lat + "," + points[i].lng + "/";
   }
   var url = "https://www.google.com/maps/dir/" + urlParams;
   window.open(url);
-}
-
-function codeAddress() {
-  var start = document.getElementById("start").value;
-  var dest = document.getElementById("dest").value;
-
-  geocoder.geocode({ address: start }, function (results, status) {
-    if (status == "OK") {
-      latitude = results[0].geometry.location.lat();
-      longitude = results[0].geometry.location.lng();
-      var place = results[0].address_components[0].long_name;
-    } else {
-      alert("Geocode was not successful for the following reason: " + status);
-    }
-  });
-  geocoder.geocode({ address: dest }, function (results, status) {
-    if (status == "OK") {
-      latitude = results[0].geometry.location.lat();
-      longitude = results[0].geometry.location.lng();
-      var place = results[0].address_components[0].long_name;
-    } else {
-      alert("Geocode was not successful for the following reason: " + status);
-    }
-  });
-  showRoute();
 }
 
 function showMap(latitude, longitude, zoom) {
