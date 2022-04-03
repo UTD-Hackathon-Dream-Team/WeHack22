@@ -51,36 +51,18 @@
                 />
               </div>
             </div>
-            <div class="btn-group btn-group-toggle mt-3" data-toggle="buttons">
-              <label class="btn btn-secondary active">
-                <input
-                  type="radio"
-                  name="stop_type"
-                  id="gas_station"
-                  autocomplete="off"
-                  checked
-                />
-                Gas Station
-              </label>
-              <label class="btn btn-secondary">
-                <input
-                  type="radio"
-                  name="stop_type"
-                  id="restaurant"
-                  autocomplete="off"
-                />
-                Restaurant
-              </label>
-              <label class="btn btn-secondary">
-                <input
-                  type="radio"
-                  name="stop_type"
-                  id="cafe"
-                  autocomplete="off"
-                />
-                Coffee Shop
-              </label>
+
+            <div class="btn-group mt-3" role="group" aria-label="Basic radio toggle button group">
+              <input type="radio" class="btn-check" name="stop_type" id="gas_station" autocomplete="off" checked>
+              <label class="btn btn-outline-secondary" for="gas_station">Gas Station</label>
+            
+              <input type="radio" class="btn-check" name="stop_type" id="restaurant" autocomplete="off">
+              <label class="btn btn-outline-secondary" for="restaurant">Restaurant</label>
+            
+              <input type="radio" class="btn-check" name="stop_type" id="cafe" autocomplete="off">
+              <label class="btn btn-outline-secondary" for="cafe">Coffee Shop</label>
             </div>
+
           </div>
           <button type="button" onclick="showRoute()" class="btn btn-primary">
             Search
