@@ -179,6 +179,15 @@ async function showRoute() {
     lng: endPoint.geometry.location.lng(),
   });
 
+  const stats = document.getElementById("trip_stats");
+
+  // creating the span element, then add a class attribute
+  const button = document.createElement("button");
+  button.setAttribute("class", "btn btn-primary");
+  button.innerHTML = "Show Route on Google Maps";
+  button.onclick = openWindow;
+  stats.appendChild(button);
+
   // var urlParams = "";
   // for (var i = 0; i < points.length; i++) {
   //   urlParams += points[i].lat + "," + points[i].lng + "/";
