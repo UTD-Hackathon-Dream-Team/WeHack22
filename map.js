@@ -6,9 +6,19 @@ var longitude = -96.750003;
 var directionsService;
 var directionsDisplay;
 var gmarkers = [];
+var points = [];
 
 function addtoPoints(toAdd) {
   points.push(toAdd);
+}
+
+function openWindow() {
+  var urlParams = "";
+  for (var i = 0; i < points.length; i++) {
+    urlParams += points[i].lat + "," + points[i].lng + "/";
+  }
+  var url = "https://www.google.com/maps/dir/" + urlParams;
+  window.open(url);
 }
 
 async function initialize() {
@@ -46,7 +56,6 @@ const getStops = (service, stopRequest) => {
   return new Promise((resolve, reject) => {
     service.nearbySearch(stopRequest, (results, status) => {
       if (status === "OK") {
-        console.log(results);
         resolve(results[0]);
       } else if (status === "OVER_QUERY_LIMIT") {
         reject(status);
@@ -66,12 +75,12 @@ async function showRoute() {
   while (list.firstChild) {
     list.removeChild(list.firstChild);
   }
+  points = [];
 
   var stopType = document.querySelector('input[name="stop_type"]:checked').id;
 
   var start = document.getElementById("start").value;
   var dest = document.getElementById("dest").value;
-  var points = [];
 
   //Get coordinates of route endpoints
   let startPoint = await getAddress(start);
@@ -170,12 +179,12 @@ async function showRoute() {
     lng: endPoint.geometry.location.lng(),
   });
 
-  var urlParams = "";
-  for (var i = 0; i < points.length; i++) {
-    urlParams += points[i].lat + "," + points[i].lng + "/";
-  }
-  var url = "https://www.google.com/maps/dir/" + urlParams;
-  window.open(url);
+  // var urlParams = "";
+  // for (var i = 0; i < points.length; i++) {
+  //   urlParams += points[i].lat + "," + points[i].lng + "/";
+  // }
+  // var url = "https://www.google.com/maps/dir/" + urlParams;
+  // window.open(url);
 }
 
 function showMap(latitude, longitude, zoom) {

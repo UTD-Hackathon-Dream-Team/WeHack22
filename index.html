@@ -24,7 +24,6 @@
   </head>
 
   <body onload="initialize()">
-
     <div class="row">
       <div class="col-4 col-med">
         <form>
@@ -53,18 +52,46 @@
                   />
                 </div>
               </div>
-  
-              <div class="btn-group mt-3" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="stop_type" id="gas_station" autocomplete="off" checked>
-                <label class="btn btn-outline-secondary" for="gas_station">Gas Station</label>
-              
-                <input type="radio" class="btn-check" name="stop_type" id="restaurant" autocomplete="off">
-                <label class="btn btn-outline-secondary" for="restaurant">Restaurant</label>
-              
-                <input type="radio" class="btn-check" name="stop_type" id="cafe" autocomplete="off">
-                <label class="btn btn-outline-secondary" for="cafe">Coffee Shop</label>
+
+              <div
+                class="btn-group mt-3"
+                role="group"
+                aria-label="Basic radio toggle button group"
+              >
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="stop_type"
+                  id="gas_station"
+                  autocomplete="off"
+                  checked
+                />
+                <label class="btn btn-outline-secondary" for="gas_station"
+                  >Gas Station</label
+                >
+
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="stop_type"
+                  id="restaurant"
+                  autocomplete="off"
+                />
+                <label class="btn btn-outline-secondary" for="restaurant"
+                  >Restaurant</label
+                >
+
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="stop_type"
+                  id="cafe"
+                  autocomplete="off"
+                />
+                <label class="btn btn-outline-secondary" for="cafe"
+                  >Coffee Shop</label
+                >
               </div>
-  
             </div>
             <button type="button" onclick="showRoute()" class="btn btn-primary">
               Search
@@ -78,13 +105,16 @@
             <h5>Trip Stats</h5>
             <h5 id="distance"></h5>
             <h5 id="duration"></h5>
+            <button class="btn btn-primary" onclick="openWindow()">
+              Show Route on Google Maps
+            </button>
           </div>
         </div>
       </div>
     </div>
-    
+
     <div class="row">
-      <div class="col-9" style="height: 600px;">
+      <div class="col-9" style="height: 600px">
         <div class="m-2" id="map"></div>
       </div>
       <div class="col">
@@ -96,6 +126,5 @@
         </div>
       </div>
     </div>
-    
   </body>
 </html>
