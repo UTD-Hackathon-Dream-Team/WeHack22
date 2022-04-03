@@ -25,25 +25,41 @@
 
   <body onload="initialize()">
     <div>
-      <form>   
-        <div class="card bg-light" style="width: 32rem;">
+      <form>
+        <div class="card bg-light" style="width: 32rem">
           <div class="card-body p-4">
             <h5 class="card-title">Plan Trip</h5>
-              <div class="row">
-                <div class="col-sm mt-2">
-                  <label for="start">Enter Starting Point</label>
-                  <input type="text" id="start" name="start" required placeholder="UTD" />  
-                </div>
-                <div class="col-sm mt-2">
-                  <label for="dest">Enter Destination</label>
-                  <input type="text" id="dest" name="dest" required placeholder="UTD" />
-                </div>
+            <div class="row">
+              <div class="col-sm mt-2">
+                <label for="start">Enter Starting Point</label>
+                <input
+                  type="text"
+                  id="start"
+                  name="start"
+                  required
+                  placeholder="UTD"
+                />
               </div>
-              <button type="button" onclick="codeAddress()" class="btn btn-primary mt-3">Search</button>
+              <div class="col-sm mt-2">
+                <label for="dest">Enter Destination</label>
+                <input
+                  type="text"
+                  id="dest"
+                  name="dest"
+                  required
+                  placeholder="UTD"
+                />
+              </div>
+            </div>
+            <button
+              type="button"
+              onclick="showRoute()"
+              class="btn btn-primary mt-3"
+            >
+              Search
+            </button>
           </div>
         </div>
-
-        
       </form>
     </div>
     <div>

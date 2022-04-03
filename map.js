@@ -10,43 +10,41 @@ var minMagnitude = 5;
 async function initialize() {
   geocoder = new google.maps.Geocoder();
   showMap(37, -96, 4);
-  showEarthquakes();
-}
-
-async function showEarthquakes(place) {
-  const earthquakeResponse = await fetch(
-    `https://earthquake.usgs.gov/fdsnws/event/1/query?starttime=${startDate}&endtime=${endDate}&minmagnitude=${minMagnitude}&format=geojson`
-  );
-  var earthquakesData = await earthquakeResponse.json();
-  var earthquakes = earthquakesData.features;
-  if (place) {
-    var newEarthquakes = earthquakes.filter((earthquake) =>
-      earthquake.properties.place
-        ? earthquake.properties.place.includes(place)
-        : false
-    );
-    earthquakes = newEarthquakes;
-  }
-
-  for (var i = 0; i < earthquakes.length; i++) {
-    new google.maps.Marker({
-      map,
-      title: earthquakes[i].properties.place,
-      position: {
-        lat: earthquakes[i].geometry.coordinates[1],
-        lng: earthquakes[i].geometry.coordinates[0],
-      },
-      icon: getCircle(earthquakes[i].properties.mag),
-    });
-  }
 }
 
 async function showRoute() {
+  var start = document.getElementById("start").value;
+  var dest = document.getElementById("dest").value;
+  var points = [];
+
+  //Get coordinates of route endpoints
+  geocoder.geocode({ address: start }, function (results, status) {
+    if (status == "OK") {
+      latitude = results[0].geometry.location.lat();
+      longitude = results[0].geometry.location.lng();
+      var place = results[0].address_components[0].long_name;
+      points.push({ lat: latitude, lng: longitude });
+    } else {
+      alert("Geocode was not successful for the following reason: " + status);
+    }
+  });
+  geocoder.geocode({ address: dest }, function (results, status) {
+    if (status == "OK") {
+      latitude = results[0].geometry.location.lat();
+      longitude = results[0].geometry.location.lng();
+      var place = results[0].address_components[0].long_name;
+      points.push({ lat: latitude, lng: longitude });
+    } else {
+      alert("Geocode was not successful for the following reason: " + status);
+    }
+  });
+
+  console.log(points);
+
+  //Get directions
   var directionsService = new google.maps.DirectionsService();
   var directionsDisplay = new google.maps.DirectionsRenderer();
   directionsDisplay.setMap(map);
-  var start = document.getElementById("start").value;
-  var dest = document.getElementById("dest").value;
   var request = {
     origin: start,
     destination: dest,
@@ -83,28 +81,66 @@ async function showRoute() {
 
       //Marking "stops"
       for (var i = 0; i < stops.length; i++) {
-        new google.maps.Marker({
-          map,
-          title: "Stop " + i.toString(),
-          position: {
-            lat: stops[i].lat(),
-            lng: stops[i].lng(),
-          },
+        // new google.maps.Marker({
+        //   map,
+        //   title: "Stop " + i.toString(),
+        //   position: {
+        //     lat: stops[i].lat(),
+        //     lng: stops[i].lng(),
+        //   },
+        // });
+
+        //Getting nearby gas station
+        var stopRequest = {
+          location: new google.maps.LatLng(stops[i].lat(), stops[i].lng()),
+          radius: "16000",
+          type: ["gas_station"],
+          rankby: "distance",
+        };
+        service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(stopRequest, function (results, status) {
+          if (status == google.maps.places.PlacesServiceStatus.OK) {
+            var place = results[0];
+            points.push({
+              lat: place.geometry.location.lat(),
+              lng: place.geometry.location.lng(),
+            });
+            console.log(
+              place.geometry.location.lat(),
+              place.geometry.location.lng()
+            );
+            new google.maps.Marker({
+              map,
+              title: place.name,
+              position: {
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng(),
+              },
+            });
+          }
         });
       }
+
+      console.log(points);
+      //Drawing route
+      points = [
+        { lat: "32.7766642", lng: "-96.79698789999999" },
+        { lat: "29.7604267", lng: "-95.3698028" },
+        { lat: "31.88048749999999", lng: "-96.3472792" },
+        { lat: "30.1420754", lng: "-95.469291" },
+      ];
+      var endPoint = points[1];
+      points.splice(1, 1);
+      points.push(endPoint);
+      console.log(points);
+      var urlParams = "";
+      for (var i = 0; i < points.length; i++) {
+        urlParams += points[i].lat + "," + points[i].lng + "/";
+      }
+      var url = "https://www.google.com/maps/dir/" + urlParams;
+      window.open(url);
     }
   });
-}
-
-function getCircle(magnitude) {
-  return {
-    path: google.maps.SymbolPath.CIRCLE,
-    fillColor: "red",
-    fillOpacity: 0.2,
-    scale: Math.pow(2, magnitude) / 2,
-    strokeColor: "white",
-    strokeWeight: 0.5,
-  };
 }
 
 function codeAddress() {
