@@ -9,7 +9,7 @@ var minMagnitude = 5;
 
 async function initialize() {
   geocoder = new google.maps.Geocoder();
-  showMap(0, 0, 1.75);
+  showMap(37, -96, 4);
   showEarthquakes();
 }
 
@@ -41,6 +41,30 @@ async function showEarthquakes(place) {
   }
 }
 
+async function showRoute() {
+  var directionsService = new google.maps.DirectionsService();
+  var directionsDisplay = new google.maps.DirectionsRenderer();
+  directionsDisplay.setMap(map);
+  var start = document.getElementById("start").value;
+  var dest = document.getElementById("dest").value;
+  var request = {
+    origin: start,
+    destination: dest,
+    travelMode: "DRIVING",
+  };
+  directionsService.route(request, function (result, status) {
+    if (status == "OK") {
+      directionsDisplay.setDirections(result);
+      console.log(result.routes[0].legs[0].distance.text);
+      console.log(result.routes[0].legs[0].duration.text);
+      document.getElementById("distance").innerHTML =
+        "Total Distance: " + result.routes[0].legs[0].distance.text;
+      document.getElementById("duration").innerHTML =
+        "Total Duration: " + result.routes[0].legs[0].duration.text;
+    }
+  });
+}
+
 function getCircle(magnitude) {
   return {
     path: google.maps.SymbolPath.CIRCLE,
@@ -53,24 +77,30 @@ function getCircle(magnitude) {
 }
 
 function codeAddress() {
-  var address = document.getElementById("address").value;
-  if (!address) {
-    showMap(0, 0, 1.75);
-    showEarthquakes();
-    return;
-  }
-  geocoder.geocode({ address: address }, function (results, status) {
+  var start = document.getElementById("start").value;
+  var dest = document.getElementById("dest").value;
+
+  geocoder.geocode({ address: start }, function (results, status) {
     if (status == "OK") {
-      // console.log(results[0]);
+      console.log(results[0]);
       latitude = results[0].geometry.location.lat();
       longitude = results[0].geometry.location.lng();
-      showMap(latitude, longitude, 5);
       var place = results[0].address_components[0].long_name;
-      showEarthquakes(place);
     } else {
       alert("Geocode was not successful for the following reason: " + status);
     }
   });
+  geocoder.geocode({ address: dest }, function (results, status) {
+    if (status == "OK") {
+      console.log(results[0]);
+      latitude = results[0].geometry.location.lat();
+      longitude = results[0].geometry.location.lng();
+      var place = results[0].address_components[0].long_name;
+    } else {
+      alert("Geocode was not successful for the following reason: " + status);
+    }
+  });
+  showRoute();
 }
 
 function showMap(latitude, longitude, zoom) {

@@ -26,16 +26,16 @@
   <body onload="initialize()">
     <div>
       <form>
-        <label for="address">Enter City/State/Country</label>
-        <input
-          type="text"
-          id="address"
-          name="address"
-          required
-          placeholder="United States"
-        />
+        <label for="start">Enter Starting Point</label>
+        <input type="text" id="start" name="start" required placeholder="UTD" />
+        <label for="dest">Enter Destination</label>
+        <input type="text" id="dest" name="dest" required placeholder="UTD" />
         <input type="button" value="Search" onclick="codeAddress()" />
       </form>
+    </div>
+    <div>
+      <p id="distance"></p>
+      <p id="duration"></p>
     </div>
     <div id="map"></div>
   </body>
