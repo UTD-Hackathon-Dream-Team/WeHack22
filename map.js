@@ -59,6 +59,8 @@ async function showRoute() {
     gmarkers[i].setMap(null);
   }
 
+  console.log(document.querySelector('input[name="stop_type"]:checked').id);
+
   var start = document.getElementById("start").value;
   var dest = document.getElementById("dest").value;
   var points = [];

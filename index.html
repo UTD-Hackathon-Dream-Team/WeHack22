@@ -53,23 +53,38 @@
             </div>
             <div class="btn-group btn-group-toggle mt-3" data-toggle="buttons">
               <label class="btn btn-secondary active">
-                <input type="radio" name="gas_station" id="gas_station" autocomplete="off" checked> Gas Station
+                <input
+                  type="radio"
+                  name="stop_type"
+                  id="gas_station"
+                  autocomplete="off"
+                  checked
+                />
+                Gas Station
               </label>
               <label class="btn btn-secondary">
-                <input type="radio" name="restaurant" id="restaurant" autocomplete="off"> Restaurant
+                <input
+                  type="radio"
+                  name="stop_type"
+                  id="restaurant"
+                  autocomplete="off"
+                />
+                Restaurant
               </label>
               <label class="btn btn-secondary">
-                <input type="radio" name="cafe" id="cafe" autocomplete="off"> Coffee Shop
+                <input
+                  type="radio"
+                  name="stop_type"
+                  id="cafe"
+                  autocomplete="off"
+                />
+                Coffee Shop
               </label>
             </div>
           </div>
-          <button
-              type="button"
-              onclick="showRoute()"
-              class="btn btn-primary"
-            >
-              Search
-            </button>
+          <button type="button" onclick="showRoute()" class="btn btn-primary">
+            Search
+          </button>
         </div>
       </form>
     </div>
