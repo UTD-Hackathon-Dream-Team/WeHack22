@@ -54,6 +54,7 @@ async function showRoute() {
   };
   directionsService.route(request, function (result, status) {
     if (status == "OK") {
+      console.log(result);
       directionsDisplay.setDirections(result);
       console.log(result.routes[0].legs[0].distance.text);
       console.log(result.routes[0].legs[0].duration.text);
@@ -61,6 +62,36 @@ async function showRoute() {
         "Total Distance: " + result.routes[0].legs[0].distance.text;
       document.getElementById("duration").innerHTML =
         "Total Duration: " + result.routes[0].legs[0].duration.text;
+
+      //Finding "stops"
+      var steps = result.routes[0].legs[0].steps;
+      var sumDuration = 0;
+      var stops = [];
+      if (steps.length > 1) {
+        for (var i = 0; i < steps.length - 1; i++) {
+          sumDuration += steps[i].duration.value;
+          if (sumDuration + steps[i + 1].duration.value > 7200) {
+            stops.push(steps[i].end_location);
+            sumDuration = 0;
+          } else if (sumDuration >= 5400) {
+            stops.push(steps[i].end_location);
+            sumDuration = 0;
+          }
+        }
+      }
+      console.log(stops);
+
+      //Marking "stops"
+      for (var i = 0; i < stops.length; i++) {
+        new google.maps.Marker({
+          map,
+          title: "Stop " + i.toString(),
+          position: {
+            lat: stops[i].lat(),
+            lng: stops[i].lng(),
+          },
+        });
+      }
     }
   });
 }
@@ -82,7 +113,6 @@ function codeAddress() {
 
   geocoder.geocode({ address: start }, function (results, status) {
     if (status == "OK") {
-      console.log(results[0]);
       latitude = results[0].geometry.location.lat();
       longitude = results[0].geometry.location.lng();
       var place = results[0].address_components[0].long_name;
@@ -92,7 +122,6 @@ function codeAddress() {
   });
   geocoder.geocode({ address: dest }, function (results, status) {
     if (status == "OK") {
-      console.log(results[0]);
       latitude = results[0].geometry.location.lat();
       longitude = results[0].geometry.location.lng();
       var place = results[0].address_components[0].long_name;
