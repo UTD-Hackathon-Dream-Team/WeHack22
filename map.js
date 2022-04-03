@@ -75,6 +75,10 @@ async function showRoute() {
   while (list.firstChild) {
     list.removeChild(list.firstChild);
   }
+  var mapsButton = document.getElementById("maps_button");
+  while (mapsButton.firstChild) {
+    mapsButton.removeChild(mapsButton.firstChild);
+  }
   points = [];
 
   var stopType = document.querySelector('input[name="stop_type"]:checked').id;
@@ -179,7 +183,7 @@ async function showRoute() {
     lng: endPoint.geometry.location.lng(),
   });
 
-  const stats = document.getElementById("trip_stats");
+  const stats = document.getElementById("maps_button");
 
   // creating the span element, then add a class attribute
   const button = document.createElement("button");
