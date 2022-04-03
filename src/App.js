@@ -1,24 +1,23 @@
-import logo from './logo.svg';
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import Map from "./Map";
 import './App.css';
+
+const render = (status) => {
+  switch (status) {
+    case Status.LOADING:
+      return <Spinner />;
+    case Status.FAILURE:
+      return <ErrorComponent />;
+    case Status.SUCCESS:
+      return <Map />;
+  }
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper apiKey={"YOUR_API_KEY"} render={render}>
+      <Map />
+    </Wrapper>
   );
 }
 
