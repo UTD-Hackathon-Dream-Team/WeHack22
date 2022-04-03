@@ -9,7 +9,9 @@ var minMagnitude = 5;
 var directionsService;
 var directionsDisplay;
 
-function addtoPoints(toAdd) { points.push(toAdd); }
+function addtoPoints(toAdd) {
+  points.push(toAdd);
+}
 
 async function initialize() {
   geocoder = new google.maps.Geocoder();
@@ -18,39 +20,39 @@ async function initialize() {
   directionsDisplay = new google.maps.DirectionsRenderer();
 }
 
-const getAddress = address => {
+const getAddress = (address) => {
   return new Promise((resolve, reject) => {
-      geocoder.geocode({address: address}, (results, status) => {
-          if (status === 'OK') {
-              resolve(results[0]);
-          } else {
-              reject(status);
-          }    
-      });    
+    geocoder.geocode({ address: address }, (results, status) => {
+      if (status === "OK") {
+        resolve(results[0]);
+      } else {
+        reject(status);
+      }
+    });
   });
 };
 
 const getRoute = (request) => {
   return new Promise((resolve, reject) => {
-      directionsService.route(request, (results, status) => {
-          if (status === 'OK') {
-              resolve(results);
-          } else {
-              reject(status);
-          }    
-      });    
+    directionsService.route(request, (results, status) => {
+      if (status === "OK") {
+        resolve(results);
+      } else {
+        reject(status);
+      }
+    });
   });
 };
 
 const getStops = (service, stopRequest) => {
   return new Promise((resolve, reject) => {
-      service.nearbySearch(stopRequest, (results, status) => {
-          if (status === 'OK') {
-              resolve(results[0]);
-          } else {
-              reject(status);
-          }    
-      });    
+    service.nearbySearch(stopRequest, (results, status) => {
+      if (status === "OK") {
+        resolve(results[0]);
+      } else {
+        reject(status);
+      }
+    });
   });
 };
 
@@ -61,7 +63,10 @@ async function showRoute() {
 
   //Get coordinates of route endpoints
   let startPoint = await getAddress(start);
-  points.push({lat: startPoint.geometry.location.lat(), long: startPoint.geometry.location.lng()});
+  points.push({
+    lat: startPoint.geometry.location.lat(),
+    lng: startPoint.geometry.location.lng(),
+  });
 
   //Get directions
   directionsDisplay.setMap(map);
@@ -129,8 +134,11 @@ async function showRoute() {
   }
 
   let endPoint = await getAddress(dest);
-  points.push({lat: endPoint.geometry.location.lat(), long: endPoint.geometry.location.lng()});
-  
+  points.push({
+    lat: endPoint.geometry.location.lat(),
+    lng: endPoint.geometry.location.lng(),
+  });
+
   var urlParams = "";
   for (var i = 0; i < points.length; i++) {
     console.log(points);
