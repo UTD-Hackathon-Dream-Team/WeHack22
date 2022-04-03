@@ -24,56 +24,69 @@
   </head>
 
   <body onload="initialize()">
-    <div>
-      <form>
-        <div class="card bg-light m-2" style="width: 32rem">
-          <div class="card-body p-4">
-            <h5 class="card-title">Plan Trip</h5>
-            <div class="row">
-              <div class="col-sm mt-2">
-                <label for="start">Enter Starting Point</label>
-                <input
-                  type="text"
-                  id="start"
-                  name="start"
-                  required
-                  placeholder="UTD"
-                />
+    <div class="row">
+      <div class="col-sm-6">
+        <div>
+          <form>
+            <div class="card bg-light m-2" style="width: 32rem">
+              <div class="card-body p-4">
+                <h5 class="card-title">Plan Trip</h5>
+                <div class="row">
+                  <div class="col-sm mt-2">
+                    <label for="start">Enter Starting Point</label>
+                    <input
+                      type="text"
+                      id="start"
+                      name="start"
+                      required
+                      placeholder="UTD"
+                    />
+                  </div>
+                  <div class="col-sm mt-2">
+                    <label for="dest">Enter Destination</label>
+                    <input
+                      type="text"
+                      id="dest"
+                      name="dest"
+                      required
+                      placeholder="UTD"
+                    />
+                  </div>
+                </div>
+    
+                <div class="btn-group mt-3" role="group" aria-label="Basic radio toggle button group">
+                  <input type="radio" class="btn-check" name="stop_type" id="gas_station" autocomplete="off" checked>
+                  <label class="btn btn-outline-secondary" for="gas_station">Gas Station</label>
+                
+                  <input type="radio" class="btn-check" name="stop_type" id="restaurant" autocomplete="off">
+                  <label class="btn btn-outline-secondary" for="restaurant">Restaurant</label>
+                
+                  <input type="radio" class="btn-check" name="stop_type" id="cafe" autocomplete="off">
+                  <label class="btn btn-outline-secondary" for="cafe">Coffee Shop</label>
+                </div>
+    
               </div>
-              <div class="col-sm mt-2">
-                <label for="dest">Enter Destination</label>
-                <input
-                  type="text"
-                  id="dest"
-                  name="dest"
-                  required
-                  placeholder="UTD"
-                />
-              </div>
+              <button type="button" onclick="showRoute()" class="btn btn-primary">
+                Search
+              </button>
             </div>
-
-            <div class="btn-group mt-3" role="group" aria-label="Basic radio toggle button group">
-              <input type="radio" class="btn-check" name="stop_type" id="gas_station" autocomplete="off" checked>
-              <label class="btn btn-outline-secondary" for="gas_station">Gas Station</label>
-            
-              <input type="radio" class="btn-check" name="stop_type" id="restaurant" autocomplete="off">
-              <label class="btn btn-outline-secondary" for="restaurant">Restaurant</label>
-            
-              <input type="radio" class="btn-check" name="stop_type" id="cafe" autocomplete="off">
-              <label class="btn btn-outline-secondary" for="cafe">Coffee Shop</label>
-            </div>
-
-          </div>
-          <button type="button" onclick="showRoute()" class="btn btn-primary">
-            Search
-          </button>
+          </form>
         </div>
-      </form>
+      </div>
+      <div class="col-sm-6">
+        <div>
+          <div class="card bg-light m-2" style="width: 32rem">
+            <div class="card-body p-4">
+              <h5>Trip Stats</h5>
+              <h5 id="distance"></h5>
+              <h5 id="duration"></h5>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
-      <p id="distance"></p>
-      <p id="duration"></p>
-    </div>
+    
+    
     <div class="m-2" id="map"></div>
   </body>
 </html>
