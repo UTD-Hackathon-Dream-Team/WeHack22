@@ -155,6 +155,7 @@ async function showRoute() {
     });
     var list = document.getElementById("your_stops");
     var entry = document.createElement("li");
+    entry.classList.add("list-group-item");
     entry.appendChild(document.createTextNode(stopsPoints.name));
     list.appendChild(entry);
     gmarkers.push(marker);

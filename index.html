@@ -24,7 +24,6 @@
   </head>
 
   <body onload="initialize()">
-
     <div class="row">
       <div class="col-4 col-med">
         <form>
@@ -75,9 +74,11 @@
       <div class="col-5 col-med">
         <div class="card bg-light m-2" style="height: 250px; width: 25rem">
           <div class="card-body p-4">
-            <h5>Trip Stats</h5>
-            <h5 id="distance"></h5>
-            <h5 id="duration"></h5>
+            <h5 class="card-title">Trip Stats</h5>
+            <div class="mt-2">
+              <p class="m-0" id="distance"></p>
+              <p class="m-0" id="duration"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -90,8 +91,8 @@
       <div class="col">
         <div class="card bg-light m-2">
           <div class="card-body p-4">
-            <h5>Your Stops:</h5>
-            <ol id="your_stops"></ol>
+            <h5 class="card-title">Your Stops</h5>
+            <ul id="your_stops" class="list-group list-group-flush"></ul>
           </div>
         </div>
       </div>
