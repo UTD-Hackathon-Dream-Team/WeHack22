@@ -139,7 +139,7 @@ async function showRoute() {
     //Getting nearby gas station
     var stopRequest = {
       location: new google.maps.LatLng(stop.lat(), stop.lng()),
-      radius: "16000",
+      radius: "32000",
       type: stopType,
       rankby: "prominence",
     };
