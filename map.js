@@ -48,6 +48,9 @@ const getStops = (service, stopRequest) => {
       if (status === "OK") {
         console.log(results);
         resolve(results[0]);
+      } else if (status === "OVER_QUERY_LIMIT") {
+        reject(status);
+        alert("Over query limit");
       } else {
         reject(status);
       }
@@ -100,9 +103,7 @@ async function showRoute() {
   var stops = [];
   if (steps.length > 1) {
     for (var i = 0; i < steps.length - 1; i++) {
-      // console.log(steps);
       if (steps[i].duration.value >= 7200) {
-        console.log(steps[i].start_location.lat(), steps[i].end_location.lat());
         sumDuration += steps[i].duration.value / 2;
         var end_location = {
           lat:
@@ -124,8 +125,6 @@ async function showRoute() {
       }
     }
   }
-
-  console.log(stops);
 
   for (const stop of stops) {
     // new google.maps.Marker({
