@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Assignment 3 sxs170015</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxec6iZQGU6yw6XDvB60UDQP2YI8Sr-Ug&callback=initialize&libraries=places"
+      defer
+    ></script>
+    <link rel="stylesheet" href="index.css" />
+    <script src="map.js"></script>
+  </head>
+
+  <body onload="initialize()">
+    <div>
+      <form>
+        <label for="address">Enter City/State/Country</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          required
+          placeholder="United States"
+        />
+        <input type="button" value="Search" onclick="codeAddress()" />
+      </form>
+    </div>
+    <div id="map"></div>
+  </body>
+</html>
