@@ -88,9 +88,11 @@ async function showRoute() {
   let directionResult = await getRoute(request);
   directionsDisplay.setDirections(directionResult);
   document.getElementById("distance").innerHTML =
-    "Total Distance: " + directionResult.routes[0].legs[0].distance.text;
+    "<strong> Total Distance:</strong> " +
+    directionResult.routes[0].legs[0].distance.text;
   document.getElementById("duration").innerHTML =
-    "Total Duration: " + directionResult.routes[0].legs[0].duration.text;
+    "<strong>Total Duration:</strong> " +
+    directionResult.routes[0].legs[0].duration.text;
 
   //Finding "stops"
   var steps = directionResult.routes[0].legs[0].steps;
@@ -98,16 +100,32 @@ async function showRoute() {
   var stops = [];
   if (steps.length > 1) {
     for (var i = 0; i < steps.length - 1; i++) {
-      sumDuration += steps[i].duration.value;
-      if (sumDuration + steps[i + 1].duration.value > 7200) {
-        stops.push(steps[i].end_location);
+      // console.log(steps);
+      if (steps[i].duration.value >= 7200) {
+        console.log(steps[i].start_location.lat(), steps[i].end_location.lat());
+        sumDuration += steps[i].duration.value / 2;
+        var end_location = {
+          lat:
+            (steps[i].start_location.lat() + steps[i].end_location.lat()) / 2,
+          lng:
+            (steps[i].start_location.lng() + steps[i].end_location.lng()) / 2,
+        };
+        stops.push(new google.maps.LatLng(end_location.lat, end_location.lng));
         sumDuration = 0;
-      } else if (sumDuration >= 5400) {
-        stops.push(steps[i].end_location);
-        sumDuration = 0;
+      } else {
+        sumDuration += steps[i].duration.value;
+        if (sumDuration + steps[i + 1].duration.value >= 7200) {
+          stops.push(steps[i].end_location);
+          sumDuration = 0;
+        } else if (sumDuration >= 5400) {
+          stops.push(steps[i].end_location);
+          sumDuration = 0;
+        }
       }
     }
   }
+
+  console.log(stops);
 
   for (const stop of stops) {
     // new google.maps.Marker({
