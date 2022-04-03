@@ -5,6 +5,7 @@ var latitude = 32.985771;
 var longitude = -96.750003;
 var directionsService;
 var directionsDisplay;
+var gmarkers = [];
 
 function addtoPoints(toAdd) {
   points.push(toAdd);
@@ -54,6 +55,10 @@ const getStops = (service, stopRequest) => {
 };
 
 async function showRoute() {
+  for (i = 0; i < gmarkers.length; i++) {
+    gmarkers[i].setMap(null);
+  }
+
   var start = document.getElementById("start").value;
   var dest = document.getElementById("dest").value;
   var points = [];
@@ -116,7 +121,7 @@ async function showRoute() {
     };
     service = new google.maps.places.PlacesService(map);
     let stopsPoints = await getStops(service, stopRequest);
-    new google.maps.Marker({
+    var marker = new google.maps.Marker({
       map,
       title: stopsPoints.name,
       position: {
@@ -124,6 +129,7 @@ async function showRoute() {
         lng: stopsPoints.geometry.location.lng(),
       },
     });
+    gmarkers.push(marker);
     points.push({
       lat: stopsPoints.geometry.location.lat(),
       lng: stopsPoints.geometry.location.lng(),
