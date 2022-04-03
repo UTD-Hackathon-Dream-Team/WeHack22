@@ -3,9 +3,6 @@ var service;
 var geocoder;
 var latitude = 32.985771;
 var longitude = -96.750003;
-var startDate = "2021-10-01";
-var endDate = "2021-10-15";
-var minMagnitude = 5;
 var directionsService;
 var directionsDisplay;
 
