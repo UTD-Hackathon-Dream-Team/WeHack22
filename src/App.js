@@ -1,7 +1,7 @@
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import Map from "./Map";
-import { Spinner } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Spinner } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const render = (status) => {
   switch (status) {
@@ -15,9 +15,12 @@ const render = (status) => {
 };
 
 function App() {
+  const center = { lat: -34.397, lng: 150.644 };
+  const zoom = 4;
+
   return (
-    <Wrapper apiKey={"YOUR_API_KEY"} render={render}>
-      <Map />
+    <Wrapper apiKey={process.env.REACT_APP_API_KEY} render={render}>
+      <Map center={center} zoom={zoom} />
     </Wrapper>
   );
 }
